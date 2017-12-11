@@ -1,0 +1,29 @@
+{
+  "name": "smartpi",
+  "version": "1.0.0",
+  "description": "Home automation 4 RPi",
+  "main": "app.js",
+  "scripts": {
+    "test": "http://localhost:8001/api/test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/skroneis/smartPi.git"
+  },
+  "keywords": [
+    "RaspberryPi"
+  ],
+  "author": "Stefan Kroneis",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/skroneis/smartPi/issues"
+  },
+  "homepage": "https://github.com/skroneis/smartPi#readme",
+  "dependencies": {
+    "async": "^2.6.0",
+    "express": "^4.16.2",
+    "google-spreadsheet": "^2.0.4",
+    "request": "^2.83.0",
+    "socket.io": "^2.0.4"
+  }
+}
