@@ -1,7 +1,6 @@
 // =======================
-// WEB-Pages =============
+// COMM ==================
 // =======================
-var config = require('./config');
 var express = require('express');
 var bodyParser = require('body-parser')
 var app = express();
@@ -9,29 +8,24 @@ var http = require('http').Server(app);
 var request = require('request');
 var httpget = require('http');
 var fs = require('fs');
-
-// =======================
-// Google spreadsheet ====
-// =======================
-var Spreadsheet = require("./spreadsheet.js");
-var spreadsheet = new Spreadsheet();
+//config
+var config = require('./config');
 
 // =======================
 // configuration =========
 // =======================
-var port = process.env.PORT || 8001;
+var port = process.env.PORT || 8003;
+
+// =======================
+// telegram ==============
+// =======================
+var Notifier = require("./telegramNotify.js");
+var notify = new Notifier(config.TelegramBotApiTokenComm, config.TelegramChatIdComm);
 
 //app.use(express.compress());
 app.use('/', express.static(__dirname + '/public'));
 //4 post
 app.use(bodyParser.json())
-
-app.get('/leds/', function (req, res) {
-    res.sendFile(__dirname + '/public/led.html');
-});
-app.get('/switch/', function (req, res) {
-    res.sendFile(__dirname + '/public/switch.html');
-});
 
 // =======================
 // start the server ======
@@ -42,14 +36,6 @@ var server = http.listen(port, function () {
     console.log('listening on %s:%s', host, port);
     // console.log(config.secret);
 });
-
-
-function errorHandler(err, req, res, next) {
-    var code = err.code;
-    var message = err.message;
-    res.writeHead(code, message, { 'content-type': 'text/plain' });
-    res.end(message);
-}
 
 // =======================
 // Init ==================
@@ -68,7 +54,6 @@ app.use(function (req, res, next) {
     // console.log('Client IP:', ip);
     next();
 });
-
 // API ROUTES -------------------
 var apiRoutes = express.Router();
 
@@ -77,6 +62,7 @@ var apiRoutes = express.Router();
 //TEST
 apiRoutes.get('/test', function (req, res, next) {
     try {
+        console.log("--------------------------------------- test ---------------------------------------");
         res.json({ value: "OK", success: true });
     }
     catch (e) {
@@ -85,46 +71,18 @@ apiRoutes.get('/test', function (req, res, next) {
     }
 });
 
-apiRoutes.route('/setValue')
-    //(accessed at POST http://localhost:8001/api/setValue)
-    .post(function (req, res) {
-        console.log("---------------------------------------body---------------------------");
-        console.log(req.body.pin);
-        console.log(req.body.value);
-        res.json({ success: true });
-    });
-
-
+//sendMessage
 apiRoutes.route('/sendMessage')
-    //(accessed at POST http://localhost:8001/api/sendMessage)
-    .post(function (req, res) {
-        console.log("---------------------------------------body---------------------------");
-        console.log(req.body);
-        // console.log(req.body.pin);
-        // console.log(req.body.value);
-        //notify.notify("TEST");
-        res.json({ success: true });
-    });
-
-//LED
-//website
-apiRoutes.get('/getStatus/:id', function (req, res, next) {
-    console.log(req.params.id);
-    var p = "pin_" + req.params.id;
-    res.json({ value: 1 });
-    // gpioStone.read(req.params.id, function (err, pin_value) {
-    //     res.json({ pin: pin_value });;
-    // });
+//(accessed at POST http://localhost:8003/api/sendMessage)
+.post(function (req, res) {
+    console.log("---------------------------------------body---------------------------");
+    console.log(req.body);
+    console.log(req.body.message);
+    // console.log(req.body.pin);
+    // console.log(req.body.value);
+    notify.notify(req.body.message);
+    res.json({ success: true });
 });
-
-apiRoutes.route('/writeRow')
-    //(accessed at POST http://localhost:8001/api/writeRow)
-    .post(function (req, res) {
-        console.log("---------------------------------------writeRow::body---------------------------");
-        console.log(req.body.stone);
-        res.json({ success: true });
-    });
-
 
 /** bodyParser.urlencoded(options)
 * Parses the text as URL encoded data (which is how browsers tend to send form data from regular forms set to POST)

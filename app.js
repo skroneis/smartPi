@@ -8,20 +8,21 @@ process.on('uncaughtException', function (err) {
 //config
 var config = require('./config');
 
-//standard libraries
-var util = require('util');
+//standard libraries/npm libraries
+//var util = require('util');
 var clc = require('cli-color'); //https://github.com/medikoo/cli-color
+var schedule = require('node-schedule');
 
 //custom libraries
 var logger = require("./logger");
-var http = require("./website");
 
-//npm libraries
-var schedule = require('node-schedule');
+//Webstite/APIs
+var http = require("./website");
+var comm = require("./communication");
 
 //Maker notifier
-var Notifier = require("./telegramNotify.js");
-var notify = new Notifier();
+// var Notifier = require("./telegramNotify.js");
+// var notify = new Notifier();
 
 // =============================
 // global variables ============
@@ -29,6 +30,7 @@ var notify = new Notifier();
 //var actuals = { IN: {}, OUT: {}, KRO: {}, CALC: {}, page: 1 };
 
 http.init();
+comm.init();
 
 logger.info(clc.green("----app.js START----"));
 
@@ -40,5 +42,3 @@ schedule.scheduleJob('*/5 * * * *', function () {
 });
 
 logger.info(clc.green("----app.js END----"));
-
-
