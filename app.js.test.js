@@ -1,6 +1,6 @@
 //GPIO STONE
 if (true) {
-	var GpioStone = require('./gpio_stone');
+	var GpioStone = require('./gpio_stone_node');
 	var gpioStone = new GpioStone();
 }
 
