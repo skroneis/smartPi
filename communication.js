@@ -20,7 +20,7 @@ var port = process.env.PORT || 8003;
 // telegram ==============
 // =======================
 var Notifier = require("./telegramNotify.js");
-var notify = new Notifier(config.TelegramBotApiTokenComm, config.TelegramChatIdComm);
+var notify = new Notifier(config.TelegramBotApiToken, config.TelegramChatId);
 
 //app.use(express.compress());
 app.use('/', express.static(__dirname + '/public'));
@@ -80,7 +80,7 @@ apiRoutes.route('/sendMessage')
     console.log(req.body.message);
     // console.log(req.body.pin);
     // console.log(req.body.value);
-    notify.notify(req.body.message);
+    notify.notify(req.body.trigger);
     res.json({ success: true });
 });
 
