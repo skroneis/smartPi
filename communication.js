@@ -22,10 +22,19 @@ var port = process.env.PORT || 8003;
 var Notifier = require("./telegramNotify.js");
 var notify = new Notifier(config.TelegramBotApiToken, config.TelegramChatId);
 
-//app.use(express.compress());
+// =======================
+// HTTP ==================
+// =======================
 app.use('/', express.static(__dirname + '/public'));
 //4 post
 app.use(bodyParser.json())
+
+// =======================
+// leds ==================
+// =======================
+app.get('/leds/', function (req, res) {
+    res.sendFile(__dirname + '/public/led.html');
+});
 
 // =======================
 // start the server ======
@@ -80,7 +89,8 @@ apiRoutes.route('/sendMessage')
     console.log(req.body.message);
     // console.log(req.body.pin);
     // console.log(req.body.value);
-    notify.notify(req.body.trigger);
+    var message = req.body.device_type + " --> " + req.body.trigger + "\r\n(" + req.body.id + ")";
+    notify.notify(message);
     res.json({ success: true });
 });
 

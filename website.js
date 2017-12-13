@@ -23,6 +23,9 @@ if (config.LEDsOn) {
     var gpioStone = new GpioStone();
 }
 
+// =======================
+// HTTP ==================
+// =======================
 app.use('/', express.static(__dirname + '/public'));
 //4 post
 app.use(bodyParser.json())
