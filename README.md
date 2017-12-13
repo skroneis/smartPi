@@ -5,6 +5,8 @@ This project provides a simple Node.js home automation library for the Raspberry
 ## Examples ##
 - ToDo...
 - 
+## WiringPi ##
+http://wiringpi.com/download-and-install/
 
 ## install as service with forever
 sudo npm install -g forever
