@@ -7,7 +7,8 @@ This project provides a simple Node.js home automation library for the Raspberry
 - 
 
 ## install as service with forever
-sudo npm install forever -g
+sudo npm install -g forever
+sudo npm install -g forever-service
 
 sudo forever-service install smartPi --script app.js -p $(dirname "$(which forever)")
 
