@@ -33,7 +33,7 @@ app.use(bodyParser.json())
 var server = http.listen(port, function () {
     var host = server.address().address
     var port = server.address().port
-    console.log('listening on %s:%s', host, port);
+    console.log('Communication API listening on %s:%s', host, port);
     // console.log(config.secret);
 });
 

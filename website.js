@@ -40,7 +40,7 @@ app.get('/switch/', function (req, res) {
 var server = http.listen(port, function () {
     var host = server.address().address
     var port = server.address().port
-    console.log('HTTP listening on %s:%s', host, port);
+    console.log('HTTP/API listening on %s:%s', host, port);
     // console.log(config.secret);
 });
 
