@@ -57,17 +57,17 @@ GPIOStone.prototype.flash = function (pin) {
 // }, 500);
 
 GPIOStone.prototype.read = function (pin, callback) {
-    console.log("read: ....: " + pin);
+    //console.log("read: ....: " + pin);
     pin = sanitizePinNumberWiringPi(parseInt(pin));
-    console.log("read: ....: " + pin);
+    //console.log("read: ....: " + pin);
     var val = wpi.digitalRead(pin);
-    console.log("val: ....: " + val);
+    //console.log("val: ....: " + val);
     (callback || noop)(null, parseInt(val, 10));
 };
 
 
 GPIOStone.prototype.read2 = function (pin, callback) {
-    console.log("read: ....: " + pin);
+    // console.log("read: ....: " + pin);
     pin = sanitizePinNumber(pin);
     //const value = fs.readFileSync('/sys/class/gpio/gpio23/value').toString();
     // var contents = fs.readFileSync('/sys/class/gpio/gpio17/value').toString();
