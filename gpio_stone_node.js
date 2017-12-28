@@ -48,6 +48,13 @@ GPIOStone.prototype.flash = function (pin) {
     setTimeout(this.setOff, 600, pin);*/
 };
 
+GPIOStone.prototype.reset = function (pin) {
+    pin = sanitizePinNumberWiringPi(parseInt(pin));
+    console.log("reset: ....: " + pin);
+    setTimeout(turnOff, 0, pin);
+    setTimeout(turnOn, 5000, pin);
+};
+
 // var pin = 0;
 // wpi.pinMode(pin, wpi.OUTPUT);
 // var value = 1;
@@ -189,6 +196,15 @@ function sanitizePinNumberWiringPi(pinNumber) {
         throw new Error("Pin number isn't valid");
     }
     return parseInt(pinMappingWiringPi[pinNumber], 10);
+}
+
+function turnOn(pin) {
+    console.log(`ON PIN => ${pin}`);
+    wpi.digitalWrite(pin, 1);
+}
+function turnOff(pin) {
+    console.log(`OFF PIN => ${pin}`);
+    wpi.digitalWrite(pin, 0);
 }
 
 function noop() { }

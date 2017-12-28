@@ -36,7 +36,9 @@ app.get('/leds/', function (req, res) {
 app.get('/switch/', function (req, res) {
     res.sendFile(__dirname + '/public/switch.html');
 });
-
+app.get('/reset/', function (req, res) {
+    res.sendFile(__dirname + '/public/reset.html');
+});
 // =======================
 // start the server ======
 // =======================
@@ -151,6 +153,26 @@ apiRoutes.route('/writeRow')
         spreadsheet.writeRow();
         res.json({ success: true });
     });
+
+// =======================
+// RESET-Switch ==========
+// =======================
+apiRoutes.route('/resetPin')
+    //(accessed at POST http://localhost:8001/api/resetPin)
+    .post(function (req, res) {
+        console.log("PIN --> " + req.body.pin);
+        console.log("VAL --> " + req.body.value);
+        if (req.body.value == 1) {
+            if (gpioStone)
+                gpioStone.reset(req.body.pin);
+        }
+        else {
+            if (gpioStone)
+                gpioStone.reset(req.body.pin);
+        }
+        res.json({ success: true });
+    });
+
 
 /** bodyParser.urlencoded(options)
 * Parses the text as URL encoded data (which is how browsers tend to send form data from regular forms set to POST)

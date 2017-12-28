@@ -32,6 +32,9 @@ app.get('/leds/', function (req, res) {
 app.get('/switch/', function (req, res) {
     res.sendFile(__dirname + '/public/switch.html');
 });
+app.get('/reset/', function (req, res) {
+    res.sendFile(__dirname + '/public/reset.html');
+});
 
 // =======================
 // start the server ======
@@ -125,6 +128,24 @@ apiRoutes.route('/writeRow')
         res.json({ success: true });
     });
 
+
+// =======================
+// RESET-Switch ==========
+// =======================
+apiRoutes.route('/resetPin')
+    //(accessed at POST http://localhost:8001/api/resetPin)
+    .post(function (req, res) {
+        console.log("---------------------------------------reset-body---------------------------");
+        console.log(req.body.pin);
+        console.log(req.body.value);
+        setTimeout(function(pin){
+            console.log("OFF...");
+          }, 0, req.body.pin);
+        setTimeout(function(pin){
+            console.log("ON...");
+          }, 5000, req.body.pin);
+        res.json({ success: true });
+    });
 
 /** bodyParser.urlencoded(options)
 * Parses the text as URL encoded data (which is how browsers tend to send form data from regular forms set to POST)
